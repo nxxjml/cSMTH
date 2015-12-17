@@ -7,8 +7,10 @@
 //
 
 #import "HotTableViewController.h"
-#import "SMTHURLConnection.h"
+//#import "SMTHURLConnection.h"
+#import "smth_netop.h"
 #import "MJRefresh.h"
+#import "HotTableViewCell.h"
 
 
 @interface HotTableViewController ()
@@ -28,6 +30,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     _api = [[SMTHURLConnection alloc] init];
     [_api init_smth];
+    _api.delegate = self;
+    
     _sectionsArray = [NSMutableArray arrayWithArray:@[@{@"code": @"", @"description": @"", @"name": @"本日十大热门话题", @"bdId": @0},
                                                       @{@"code": @"", @"description": @"", @"name": @"国内院校", @"bdId": @2},
                                                       @{@"code": @"", @"description": @"", @"name": @"休闲娱乐", @"bdId": @3},
@@ -39,21 +43,28 @@
                                                       @{@"code": @"", @"description": @"", @"name": @"学术科学", @"bdId": @9},
                                                       @{@"code": @"", @"description": @"", @"name": @"电脑技术", @"bdId": @10}]];
     
-    self.tableView.estimatedRowHeight = self.tableView.rowHeight;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
+//    self.tableView.estimatedRowHeight = self.tableView.rowHeight;
+//    self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     UIView *footView = [[UIView alloc] init];
     footView.backgroundColor = [UIColor clearColor];
     self.tableView.tableFooterView = footView;
-    
+    //为tableview添加下拉刷新
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    if (_accessToken == nil) {
-        NSInteger loginSuccess = [_api net_LoginBBS:@"guest" :@""];
-        NSInteger errorCode = _api->net_error;
-        if (loginSuccess != nil && errorCode == 0) {
-            self.accessToken = [_api net_get]
-        }
-    }
+    
+//    if (_accessToken == nil) {
+//        NSInteger errorCode = _api->net_error;
+//        NSLog(@"error code is %ld", errorCode);
+//        [_api reset_status];
+//        [self.api net_LoginBBS:@"merl" :@"831117jxf"];
+////        int loginSuccess = [_api net_LoginBBS:@"guest" :@""];
+//        errorCode = _api->net_error;
+//        NSLog(@"error code is %ld", errorCode);
+//        if (loginSuccess != 0 && errorCode == 0) {
+//            self.accessToken = apiGetAccessToken();
+//            NSLog(@"token is  %@", self.accessToken);
+//        }
+//    }
     
     
     
@@ -71,15 +82,22 @@
 - (void)loadNewData {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
+        [_api reset_status];
+        [self.api net_LoginBBS:@"merl" :@"831117jxf"];
+        NSMutableArray *content = [[NSMutableArray alloc] initWithCapacity:10];
         for (NSDictionary *section in _sectionsArray) {
+            [self.api reset_status];
             NSArray *rawThreads = [_api net_LoadSectionHot:(long)[section objectForKey:@"bdId"]];
-            [_contentArray arrayByAddingObjectsFromArray:rawThreads];
+            [content addObject:rawThreads];
             NSInteger errorCode = (NSInteger)_api->net_error;
             NSLog(@"%@, errorCode is %ld", rawThreads, (long)errorCode);
             }
         dispatch_async(dispatch_get_main_queue(), ^(){
             [self.tableView.mj_header endRefreshing];
-            NSLog(@"%@", self.contentArray);
+            [self.contentArray removeAllObjects];
+            self.contentArray = content;
+            NSLog(@"contentArray is %@", content);
+            [self.tableView reloadData];
             
         });
 
@@ -91,23 +109,29 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //#warning Incomplete implementation, return the number of sections
-    return 2;
+    return [self.contentArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete implementation, return the number of rows
-    return 2;
+    return [[self.contentArray objectAtIndex:section] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Articles" forIndexPath:indexPath];
+    HotTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Articles" forIndexPath:indexPath];
+    cell.titleLabel.text = [self.contentArray[indexPath.section][indexPath.row] objectForKey:@"subject"];
+    cell.boardLabel.text = [self.contentArray[indexPath.section][indexPath.row] objectForKey:@"board"];
+    cell.authorLabel.text = [self.contentArray[indexPath.section][indexPath.row] objectForKey:@"author_id"];
     
     // Configure the cell...
     
     return cell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return  [self.contentArray[section] count] == 0 ? nil : [self.sectionsArray[section] objectForKey:@"name"];
+}
 
 /*
 // Override to support conditional editing of the table view.

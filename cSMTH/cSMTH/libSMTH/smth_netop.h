@@ -10,6 +10,9 @@ int apiNetRegAPNS(NSString * username, NSString * token, NSString * profile);
 
 unsigned int api_get_version();
 
+void apiSetAccessToken(NSString * actoken);
+NSString * apiGetAccessToken();
+
 
 //defined in libSMTH, implemented not in libSMTH(in client_signature.m).
 NSString * client_get_secret();

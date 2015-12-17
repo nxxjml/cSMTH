@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SMTHURLConnection.h"
 
-@interface HotTableViewController : UITableViewController
+@interface HotTableViewController : UITableViewController<SMTHURLConnectionDelegate>
 @property (copy, nonatomic) NSMutableArray *sectionsArray;
 @property (copy, nonatomic) NSMutableArray *contentArray;
 @property (copy, nonatomic) NSString *accessToken;
