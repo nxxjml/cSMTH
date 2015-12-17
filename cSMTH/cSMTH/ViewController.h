@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<UIWebViewDelegate>
+{
+    UIWebView *webView;
+    UIActivityIndicatorView *activityIndicator;
+    //__weak IBOutlet UIWebView *webView;
+    
+}
+
 
 
 @end
