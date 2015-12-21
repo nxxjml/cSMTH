@@ -72,15 +72,15 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <segue destination="JOm-qH-poy" kind="relationship" relationship="viewControllers" id="IWr-AG-gSb"/>
                         <segue destination="VuF-32-PE1" kind="relationship" relationship="viewControllers" id="XIh-hX-Ptf"/>
                         <segue destination="4wF-bZ-8bm" kind="relationship" relationship="viewControllers" id="cCZ-tN-fog"/>
                         <segue destination="2rn-D0-KPp" kind="relationship" relationship="viewControllers" id="4ET-Bv-8fF"/>
-                        <segue destination="JOm-qH-poy" kind="relationship" relationship="viewControllers" id="IWr-AG-gSb"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vxW-8t-5Y4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-191" y="1291"/>
+            <point key="canvasLocation" x="-357" y="1307"/>
         </scene>
         <!--Hot Table View Controller-->
         <scene sceneID="Z6v-mw-Aff">

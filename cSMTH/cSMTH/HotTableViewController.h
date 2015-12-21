@@ -10,8 +10,12 @@
 #import "SMTHURLConnection.h"
 
 @interface HotTableViewController : UITableViewController<SMTHURLConnectionDelegate>
+{
+    NSInteger loginSuccess;
+}
 @property (copy, nonatomic) NSMutableArray *sectionsArray;
 @property (copy, nonatomic) NSMutableArray *contentArray;
 @property (copy, nonatomic) NSString *accessToken;
+
 
 @end

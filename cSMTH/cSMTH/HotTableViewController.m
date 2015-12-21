@@ -28,9 +28,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //初始化水木API
     _api = [[SMTHURLConnection alloc] init];
     [_api init_smth];
     _api.delegate = self;
+    
+    self.contentArray = [[NSMutableArray alloc] init];
     
     _sectionsArray = [NSMutableArray arrayWithArray:@[@{@"code": @"", @"description": @"", @"name": @"本日十大热门话题", @"bdId": @0},
                                                       @{@"code": @"", @"description": @"", @"name": @"国内院校", @"bdId": @2},
@@ -51,6 +54,51 @@
     self.tableView.tableFooterView = footView;
     //为tableview添加下拉刷新
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    
+    
+    NSString *userName = @"merl";
+    NSString *passWord = @"831117jxf";
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
+//        [_api reset_status];
+//        NSInteger loginSuccess =  [self.api net_LoginBBS:userName :passWord];
+//        dispatch_async(dispatch_get_main_queue(), ^(){
+//            if (loginSuccess != 0 && _api->net_error == 0) {
+//                NSLog(@"Login successfully!!");
+//            }
+//        });
+//    });
+    loginSuccess = 0;
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
+//        [_api reset_status];
+//        loginSuccess =  [self.api net_LoginBBS:@"merl" :@"831117jxf"];
+//        NSLog(@"loginSuccess is %ld", loginSuccess);
+//        int errorCode = _api->net_error;
+//        NSLog(@"error code is %d", errorCode);
+//        
+////        NSMutableArray *content = [[NSMutableArray alloc] initWithCapacity:10];
+////        for (NSDictionary *section in _sectionsArray) {
+////            [self.api reset_status];
+////            NSArray *rawThreads = [_api net_LoadSectionHot:(long)[section objectForKey:@"bdId"]];
+////            [content addObject:rawThreads];
+////            NSInteger errorCode = (NSInteger)_api->net_error;
+////                        NSLog(@"%@, errorCode is %ld", rawThreads, (long)errorCode);
+////        }
+//        dispatch_async(dispatch_get_main_queue(), ^(){
+//             NSLog(@"loginSuccess is %ld", loginSuccess);
+////            [self.tableView.mj_header endRefreshing];
+////            //[self.contentArray removeAllObjects];
+////            self.contentArray = content;
+////            //            NSLog(@"contentArray is %@", content);
+////            [self.tableView reloadData];
+//            
+//        });
+//        
+//    });
+//    [self login];
+   
+    
+    [self fetchDataDirectly];
     
 //    if (_accessToken == nil) {
 //        NSInteger errorCode = _api->net_error;
@@ -75,32 +123,60 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)login {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [_api reset_status];
+    int loginSuc =  [self.api net_LoginBBS:@"merl" :@"831117jxf"];
+    NSLog(@"loginSuc @ login is %d", loginSuc);
+    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            loginSuccess = loginSuc;
+            NSLog(@"loginSuccess @ login i %d", loginSuccess);
+            
+        });
+    });
+    
+    
+}
+
 - (void)fetchData {
     [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)loadNewData {
     
+    [self fetchDataDirectly];
+}
+
+- (void)fetchDataDirectly {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
-        [_api reset_status];
-        [self.api net_LoginBBS:@"merl" :@"831117jxf"];
+        if (loginSuccess == 0) {
+            [_api reset_status];
+            loginSuccess =  [self.api net_LoginBBS:@"merl" :@"831117jxf"];
+             NSLog(@"loginSuccess @ fetchData is %ld", loginSuccess);
+        }
+        
+
+//        NSLog(@"loginSuccess is %ld", loginSuccess);
+        
         NSMutableArray *content = [[NSMutableArray alloc] initWithCapacity:10];
         for (NSDictionary *section in _sectionsArray) {
             [self.api reset_status];
             NSArray *rawThreads = [_api net_LoadSectionHot:(long)[section objectForKey:@"bdId"]];
             [content addObject:rawThreads];
             NSInteger errorCode = (NSInteger)_api->net_error;
-            NSLog(@"%@, errorCode is %ld", rawThreads, (long)errorCode);
-            }
+//            NSLog(@"%@, errorCode is %ld", rawThreads, (long)errorCode);
+        }
         dispatch_async(dispatch_get_main_queue(), ^(){
             [self.tableView.mj_header endRefreshing];
-            [self.contentArray removeAllObjects];
+            //[self.contentArray removeAllObjects];
             self.contentArray = content;
-            NSLog(@"contentArray is %@", content);
+//            NSLog(@"contentArray is %@", content);
             [self.tableView reloadData];
             
         });
-
+        
     });
 }
 
