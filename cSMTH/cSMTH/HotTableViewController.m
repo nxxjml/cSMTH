@@ -11,6 +11,7 @@
 #import "smth_netop.h"
 #import "MJRefresh.h"
 #import "HotTableViewCell.h"
+#import "ArticleContentTableViewController.h"
 
 
 @interface HotTableViewController ()
@@ -172,7 +173,7 @@
             [self.tableView.mj_header endRefreshing];
             //[self.contentArray removeAllObjects];
             self.contentArray = content;
-//            NSLog(@"contentArray is %@", content);
+//           NSLog(@"contentArray is %@", content);
             [self.tableView reloadData];
             
         });
@@ -207,6 +208,28 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     return  [self.contentArray[section] count] == 0 ? nil : [self.sectionsArray[section] objectForKey:@"name"];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    UIViewController *dvc = segue.destinationViewController;
+//    UINavigationController *nvc = (UINavigationController*)dvc;
+//    if (nvc != nil) {
+//        dvc = nvc.visibleViewController;
+//    }
+    
+    ArticleContentTableViewController *acvc = (ArticleContentTableViewController*)dvc;
+    UITableViewCell *cell = (UITableViewCell*)sender;
+    NSIndexPath *indexpath = [self.tableView indexPathForCell:cell];
+    
+    NSDictionary *thread = _contentArray[indexpath.section][indexpath.row];
+    NSNumber *aID = [thread objectForKey:@"id"];
+    acvc.articleID = [aID integerValue];
+    acvc.boardID = [thread objectForKey:@"board"];
+    acvc.title = [thread objectForKey:@"subject"];
+    acvc.fromTopTen = YES;
+    acvc.hidesBottomBarWhenPushed  = YES;
+    
+    NSLog(@"articleID is %ld, boardID is %@", [aID integerValue], [thread objectForKey:@"board"]);
 }
 
 /*

@@ -8,14 +8,17 @@
 
 #import "ArticleContentTableViewController.h"
 #import "ArticleContentTableViewCell.h"
-#import "SMTHURLConnection.h"
+//#import "SMTHURLConnection.h"
+#import "MJRefresh.h"
 
 @interface ArticleContentTableViewController ()
 {
-    NSMutableArray *smArticles;
+//    NSMutableArray *smArticles;
     SMTHURLConnection *api;
 
 }
+@property (retain, nonatomic) NSMutableArray *smArticles;
+@property (nonatomic) NSInteger totalArticleNumber;
 
 @end
 
@@ -24,11 +27,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    api = [[SMTHURLConnection alloc] init];
+    [api init_smth];
+    api.delegate = self;
+    _smArticles = [[NSMutableArray alloc] init];
+
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.tableView registerClass:ArticleContentTableViewCell.self forCellReuseIdentifier:@"ArticleContentCell"];//设置tableview cell的class！！！
+    UIView *footerView = [[UIView alloc] init];
+    footerView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableFooterView = footerView;
+    
+    self.tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(fetchDataDirectly)];
+//    self.tableView.mj_header
+    self.tableView.mj_footer = [MJRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoredata)];
+//    self.tableView.mj_footer.
+    [self fetchData];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,20 +60,26 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
+//#warning Incomplete implementation, return the number of sections
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return [smArticles count];
+//#warning Incomplete implementation, return the number of rows
+    NSLog(@"smArticles count is %ld", [_smArticles count]);
+    return [_smArticles count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ArticleContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ArticleContetnCell" forIndexPath:indexPath];
-    NSDictionary *smArticle = smArticles[indexPath.row];
-    NSInteger floor = [smArticle objectForKey:@"floor"];
+    ArticleContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ArticleContentCell" forIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[ArticleContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ArticleContentCell"];
+        [cell setup];
+    }
+    NSDictionary *smArticle = _smArticles[indexPath.row];
+    NSNumber *floorNum = [smArticle objectForKey:@"floor"];
+    NSInteger floor = [floorNum integerValue];
     [cell setData:floor :smArticle :self];
     cell.preservesSuperviewLayoutMargins = false;
     
@@ -62,8 +89,8 @@
 }
 
 - (void)fetchDataDirectly {
-    [smArticles removeAllObjects];
-    NSString *boardID = _boartdID;
+    [_smArticles removeAllObjects];
+    NSString *boardID = _boardID;
     NSInteger articleID = _articleID;
     
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -101,7 +128,9 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [api reset_status];
-        NSMutableArray *smArticles = [api net_GetThread:boardID :articleID :0 :10 :0];
+        NSArray *smArticles = [api net_GetThread:boardID :articleID :0 :10 :0];
+        int errorCode = api->net_error;
+        NSLog(@"error code is %d ", errorCode);
         NSInteger totalArticleNumber  = [api net_GetLastThreadCnt];
         if (_fromTopTen && _boardName == nil) {
             [api reset_status];
@@ -116,14 +145,44 @@
             }
         
         }
-        dispatch_get_main_queue()
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView.mj_header endRefreshing];
+            self.tableView.mj_footer.hidden = YES;
+            if (smArticles != nil) {
+                [_smArticles removeAllObjects];
+                [_smArticles addObjectsFromArray:smArticles];
+                _totalArticleNumber = totalArticleNumber;
+                [self.tableView reloadData];
+                NSLog(@"article content is %@", _smArticles);
+            } else {
+                [self.tableView.mj_header endRefreshing];
+                self.tableView.mj_footer.hidden = NO;
+            }
+            
+            
+            
+        });
         
         
         
-    })
+    });
 
 }
 
+- (void)fetchData{
+    [self.tableView.mj_header beginRefreshing];
+    self.tableView.mj_footer.hidden = YES;
+}
+
+- (void)fetchMoredata{
+    NSString *boardID = _boardID;
+    NSInteger articleID = _articleID;
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSMutableArray *smArticles =[api net_GetThread:boardID :articleID :0 :10 :0];
+//        NSInteger newIndexs = [self.smArticles cou];
+//    })
+//    
+}
 
 /*
 // Override to support conditional editing of the table view.

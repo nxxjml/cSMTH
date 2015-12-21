@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SMTHURLConnection.h"
 
-@interface ArticleContentTableViewController : UITableViewController
+@interface ArticleContentTableViewController : UITableViewController<SMTHURLConnectionDelegate>
 {
     
 
 }
 
-@property(copy,nonatomic) NSString *boartdID;
+@property(copy,nonatomic) NSString *boardID;
 @property (copy, nonatomic) NSString *boardName;
 @property (nonatomic) NSInteger articleID;
 @property (nonatomic) BOOL fromTopTen;

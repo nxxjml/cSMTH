@@ -133,6 +133,7 @@
                                     <outlet property="authorLabel" destination="m0v-JH-Ux2" id="f2O-pA-VPl"/>
                                     <outlet property="boardLabel" destination="g0Z-UI-emG" id="prJ-tL-xBz"/>
                                     <outlet property="titleLabel" destination="gIS-yi-qLB" id="JRm-6Z-cYP"/>
+                                    <segue destination="rLX-TV-5zD" kind="show" id="RD7-b2-Wvv"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -146,6 +147,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NH0-Bc-MEY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1567" y="-215"/>
+        </scene>
+        <!--Article Content Table View Controller-->
+        <scene sceneID="q2b-AN-yJw">
+            <objects>
+                <tableViewController id="rLX-TV-5zD" customClass="ArticleContentTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="oR5-es-8e0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="rLX-TV-5zD" id="gzq-tH-mJQ"/>
+                            <outlet property="delegate" destination="rLX-TV-5zD" id="jSe-Ac-vCc"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="adv-it-0Yp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2273" y="-215"/>
         </scene>
         <!--版面-->
         <scene sceneID="vlH-NH-dzh">
