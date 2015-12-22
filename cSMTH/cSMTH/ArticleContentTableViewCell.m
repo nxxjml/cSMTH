@@ -21,54 +21,98 @@
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    return [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    
-}
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setup];
+        [self layoutIfNeeded];
+    }
+    return self;
+    }
 
 - (void)setup{
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.tintColor = [[UIApplication sharedApplication] keyWindow].tintColor;
     self.clipsToBounds = true;
+    CGRect cellFrame = [self.contentView frame];
+    cellFrame.size.height = 100;
+    [self.contentView setFrame:cellFrame];
     
-    authorButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [self.contentView addSubview:authorButton];
+    _authorButton = [[UIButton alloc] init];
+    _authorButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    _authorButton.backgroundColor = [UIColor lightGrayColor];
+    [self.contentView addSubview:_authorButton];
     
-    floorAndTimeLabel.font = [UIFont systemFontOfSize:15];
-    [self.contentView addSubview:floorAndTimeLabel];
+    _floorAndTimeLabel = [[UILabel alloc] init];
+    _floorAndTimeLabel.font = [UIFont systemFontOfSize:15];
+    [self.contentView addSubview:_floorAndTimeLabel];
     
-    [replyButton setTitle:@"回复" forState:UIControlStateNormal];
-    replyButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    replyButton.layer.cornerRadius = 4;
-    replyButton.layer.borderWidth = 1;
-    replyButton.layer.borderColor = self.tintColor.CGColor;
-    replyButton.clipsToBounds = true;
-    [replyButton addTarget:self action:@selector(reply) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:replyButton];
+    _replyButton = [[UIButton alloc] init];
+    [_replyButton setTitle:@"回复" forState:UIControlStateNormal];
+    _replyButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    _replyButton.layer.cornerRadius = 4;
+    _replyButton.layer.borderWidth = 1;
+    _replyButton.layer.borderColor = self.tintColor.CGColor;
+    _replyButton.clipsToBounds = true;
+    [_replyButton addTarget:self action:@selector(reply) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_replyButton];
     
-    [moreButton setTitle:@"..." forState:UIControlStateNormal];
-    moreButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    moreButton.layer.cornerRadius = 4;
-    moreButton.layer.borderWidth = 1;
-    moreButton.layer.borderColor = self.tintColor.CGColor;
-    [moreButton addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:moreButton];
+    _moreButton = [[UIButton alloc] init];
+    [_moreButton setTitle:@"..." forState:UIControlStateNormal];
+    _moreButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    _moreButton.layer.cornerRadius = 4;
+    _moreButton.layer.borderWidth = 1;
+    _moreButton.layer.borderColor = self.tintColor.CGColor;
+    [_moreButton addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_moreButton];
     
-    contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    contentLabel.numberOfLines = 0;
-    contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
-    contentLabel.delegate = self;
-    contentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
-    contentLabel.extendsLinkTouchArea = false;
-    contentLabel.linkAttributes = @{NSForegroundColorAttributeName:self.tintColor};
-    contentLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[self.tintColor colorWithAlphaComponent:0.6]};
-    [self.contentView addSubview:contentLabel];
+    CGFloat imageLength = 0;
+    if ([_imageViews count] == 1) {
+        imageLength = self.contentView.bounds.size.width;
+    } else {
+        
+    };
+    
+    _contentLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, self.contentView.bounds.size.height - 60 -imageLength)];
+    _contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _contentLabel.numberOfLines = 0;
+    _contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
+    _contentLabel.delegate = self;
+    _contentLabel.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
+    _contentLabel.extendsLinkTouchArea = false;
+    _contentLabel.linkAttributes = @{NSForegroundColorAttributeName:self.tintColor};
+    _contentLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[self.tintColor colorWithAlphaComponent:0.6]};
+    [self.contentView addSubview:_contentLabel];
+//    NSLog(@"setup finished!!");
     
     
 }
 
 - (void)setData:(NSInteger)floor :(NSDictionary *)smArticle :(UITableViewController *)controller {
-    displayFloor = floor;
-    self->controller = controller;
+//    func setData(displayFloor floor: Int, smarticle: SMArticle, controller: UITableViewController?, delegate: ComposeArticleControllerDelegate) {
+//        self.displayFloor = floor
+//        self.controller = controller
+//        self.delegate = delegate
+//        self.article = smarticle
+//        
+//        authorButton.setTitle(smarticle.authorID, forState: .Normal)
+//        let floorText = displayFloor == 0 ? "楼主" : "\(displayFloor)楼"
+//        floorAndTimeLabel.text = "\(floorText)  \(smarticle.timeString)"
+//        
+//        contentLabel.setText(smarticle.attributedBody)
+//        
+//        drawImagesWithInfo(smarticle.imageAtt)
+//    }
+    _displayFloor = floor;
+    _controller = controller;
+    [_authorButton setTitle:[smArticle objectForKey:@"boardID"] forState:UIControlStateNormal];
+    NSString *floorText;
+    floorText = (_displayFloor == 0) ? @"楼主" : [NSString stringWithFormat:@"%ld楼", floor];
+    [_contentLabel setText:[smArticle objectForKey:@"body"]];
+    NSLog(@"setup data finished, body is %@", [smArticle objectForKey:@"body"]);
+    
+    
+    
+    
     
     
 }
@@ -104,21 +148,25 @@
 //            imageView.frame = CGRectMake(X, startY + offsetY, length, length)
 //        }
 //    }
-    [authorButton sizeToFit];
-    authorButton.frame = CGRectMake(0, 0, authorButton.bounds.size.width, authorButton.bounds.size.height);
-    [floorAndTimeLabel sizeToFit];
-    floorAndTimeLabel.frame = CGRectMake(8, 26, floorAndTimeLabel.bounds.size.width, floorAndTimeLabel.bounds.size.height);
-    replyButton.frame = CGRectMake((CGFloat)([UIScreen mainScreen].bounds.size.width - 94), 14, 40, 24);
-    moreButton.frame = CGRectMake((CGFloat)([UIScreen mainScreen].bounds.size.width - 44), 14, 36, 24);
+//    [_authorButton sizeToFit];
+//    _authorButton.frame = CGRectMake(8, 0, _authorButton.bounds.size.width, _authorButton.bounds.size.height);
+    _authorButton.frame = CGRectMake(8, 10, 50, 20);
+
+    NSLog(@"width is %f, height is %f", _authorButton.bounds.size.width, _authorButton.bounds.size.height);
+    [_floorAndTimeLabel sizeToFit];
+    _floorAndTimeLabel.frame = CGRectMake(8, 26, _floorAndTimeLabel.bounds.size.width, _floorAndTimeLabel.bounds.size.height);
+    _replyButton.frame = CGRectMake((CGFloat)([UIScreen mainScreen].bounds.size.width - 94), 14, 40, 24);
+    _moreButton.frame = CGRectMake((CGFloat)([UIScreen mainScreen].bounds.size.width - 44), 14, 36, 24);
     
     CGFloat imageLength = 0;
-    if ([imageViews count] == 1) {
+    if ([_imageViews count] == 1) {
         imageLength = self.contentView.bounds.size.width;
     } else {
        
     };
-    contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, self.contentView.bounds.size.height - 60 -imageLength);
+    _contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, self.contentView.bounds.size.height - 60 -imageLength);
     CGSize size = self.contentView.bounds.size;
+    NSLog(@"layout finished");
     
     
 }

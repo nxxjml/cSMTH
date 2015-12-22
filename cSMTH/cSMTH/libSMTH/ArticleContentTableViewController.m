@@ -32,7 +32,7 @@
     api.delegate = self;
     _smArticles = [[NSMutableArray alloc] init];
 
-    
+    self.tableView.estimatedRowHeight = self.tableView.rowHeight;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -60,27 +60,29 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Incomplete implementation, return the number of sections
+
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete implementation, return the number of rows
+
     NSLog(@"smArticles count is %ld", [_smArticles count]);
     return [_smArticles count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ArticleContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ArticleContentCell" forIndexPath:indexPath];
+    ArticleContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ArticleContentCell"];
     if (cell == nil) {
         cell = [[ArticleContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ArticleContentCell"];
-        [cell setup];
+        NSLog(@"cell init");
     }
     NSDictionary *smArticle = _smArticles[indexPath.row];
     NSNumber *floorNum = [smArticle objectForKey:@"floor"];
     NSInteger floor = [floorNum integerValue];
     [cell setData:floor :smArticle :self];
+//    NSLog(@"cell content is %@", smArticle);
+    
     cell.preservesSuperviewLayoutMargins = false;
     
     // Configure the cell...
@@ -153,7 +155,7 @@
                 [_smArticles addObjectsFromArray:smArticles];
                 _totalArticleNumber = totalArticleNumber;
                 [self.tableView reloadData];
-                NSLog(@"article content is %@", _smArticles);
+                NSLog(@"article content is %@", _smArticles[0]);
             } else {
                 [self.tableView.mj_header endRefreshing];
                 self.tableView.mj_footer.hidden = NO;
@@ -183,6 +185,7 @@
 //    })
 //    
 }
+
 
 /*
 // Override to support conditional editing of the table view.
