@@ -201,6 +201,9 @@
     cell.boardLabel.text = [self.contentArray[indexPath.section][indexPath.row] objectForKey:@"board"];
     cell.authorLabel.text = [self.contentArray[indexPath.section][indexPath.row] objectForKey:@"author_id"];
     
+//    CGRect frame = cell.frame;
+//    frame.size.height = 200;
+//    [cell setFrame:frame];
     // Configure the cell...
     
     return cell;

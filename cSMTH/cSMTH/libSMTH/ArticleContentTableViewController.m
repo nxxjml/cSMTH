@@ -32,7 +32,8 @@
     api.delegate = self;
     _smArticles = [[NSMutableArray alloc] init];
 
-    self.tableView.estimatedRowHeight = self.tableView.rowHeight;
+//    self.tableView.estimatedRowHeight = 200;
+//    NSLog(@"tableview  height is %f", self.tableView.frame.size.height);
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -78,12 +79,18 @@
         NSLog(@"cell init");
     }
     NSDictionary *smArticle = _smArticles[indexPath.row];
-    NSNumber *floorNum = [smArticle objectForKey:@"floor"];
-    NSInteger floor = [floorNum integerValue];
+//    NSNumber *floorNum = [smArticle objectForKey:@"floor"];
+//    NSInteger floor = [floorNum integerValue];
+    NSInteger floor = indexPath.row;
     [cell setData:floor :smArticle :self];
+//    NSLog(@"floor is %@",floorNum);÷
 //    NSLog(@"cell content is %@", smArticle);
+//    CGRect cellFrame = cell.frame;
+//    cellFrame.size.height = 200;
+//    [cell setFrame:cellFrame];
+//    NSLog(@"cell height is %f,cell contentview height is %f", cell.frame.size.height,cell.contentView.frame.size.height);
     
-    cell.preservesSuperviewLayoutMargins = false;
+//    cell.preservesSuperviewLayoutMargins = false;
     
     // Configure the cell...
     
@@ -130,7 +137,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [api reset_status];
-        NSArray *smArticles = [api net_GetThread:boardID :articleID :0 :10 :0];
+        NSArray *smArticles = [api net_GetThread:boardID :articleID :0 :20 :0];
         int errorCode = api->net_error;
         NSLog(@"error code is %d ", errorCode);
         NSInteger totalArticleNumber  = [api net_GetLastThreadCnt];
@@ -186,6 +193,13 @@
 //    
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 200;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 200;
+}
 
 /*
 // Override to support conditional editing of the table view.

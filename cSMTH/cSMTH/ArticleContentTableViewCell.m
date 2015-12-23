@@ -24,8 +24,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setup];
-        [self layoutIfNeeded];
+//        [self layoutIfNeeded];
     }
+    CGRect frame = self.frame;
+    frame.size.height =100;
+    self.frame = frame;
     return self;
     }
 
@@ -34,8 +37,13 @@
     self.tintColor = [[UIApplication sharedApplication] keyWindow].tintColor;
     self.clipsToBounds = true;
     CGRect cellFrame = [self.contentView frame];
-    cellFrame.size.height = 100;
-    [self.contentView setFrame:cellFrame];
+//    NSLog(@"cell frame height is %f", cellFrame.size.height);
+   
+    cellFrame.size.height = 44;
+    [self setFrame:cellFrame];
+//    self.contentView.bounds = cellFrame;
+    
+//    NSLog(@"content view frame height is %f, bounds height is %f", self.contentView.frame.size.height, self.contentView.bounds.size.height);
     
     _authorButton = [[UIButton alloc] init];
     _authorButton.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -44,6 +52,7 @@
     
     _floorAndTimeLabel = [[UILabel alloc] init];
     _floorAndTimeLabel.font = [UIFont systemFontOfSize:15];
+    [_floorAndTimeLabel setBackgroundColor:[UIColor lightGrayColor]];
     [self.contentView addSubview:_floorAndTimeLabel];
     
     _replyButton = [[UIButton alloc] init];
@@ -52,7 +61,7 @@
     _replyButton.layer.cornerRadius = 4;
     _replyButton.layer.borderWidth = 1;
     _replyButton.layer.borderColor = self.tintColor.CGColor;
-    _replyButton.clipsToBounds = true;
+//    _replyButton.clipsToBounds = true;
     [_replyButton addTarget:self action:@selector(reply) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_replyButton];
     
@@ -72,7 +81,7 @@
         
     };
     
-    _contentLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, self.contentView.bounds.size.height - 60 -imageLength)];
+    _contentLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     _contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _contentLabel.numberOfLines = 0;
     _contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
@@ -103,10 +112,22 @@
 //        drawImagesWithInfo(smarticle.imageAtt)
 //    }
     _displayFloor = floor;
+    NSLog(@"floor is %ld", floor);
     _controller = controller;
     [_authorButton setTitle:[smArticle objectForKey:@"boardID"] forState:UIControlStateNormal];
     NSString *floorText;
     floorText = (_displayFloor == 0) ? @"楼主" : [NSString stringWithFormat:@"%ld楼", floor];
+    NSNumber *time = [smArticle objectForKey:@"time"];
+    NSTimeInterval timeInterval = [time doubleValue];
+    NSDate *timeAndDate = [NSDate dateWithTimeIntervalSince1970: timeInterval];
+//    NSDate *time = [NSDate date];
+//    NSLog(@"time is %@", timeAndDate);
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateStyle: NSDateFormatterShortStyle];
+    formatter.dateFormat = @"yyyy/MM/dd HH:mm:ss";
+//    NSLog(@"time after formate is %@", [formatter stringFromDate:timeAndDate]);
+    
+    [_floorAndTimeLabel setText:[NSString stringWithFormat:@"%@  %@", floorText, [formatter stringFromDate:timeAndDate]]];
     [_contentLabel setText:[smArticle objectForKey:@"body"]];
     NSLog(@"setup data finished, body is %@", [smArticle objectForKey:@"body"]);
     
@@ -148,13 +169,14 @@
 //            imageView.frame = CGRectMake(X, startY + offsetY, length, length)
 //        }
 //    }
-//    [_authorButton sizeToFit];
-//    _authorButton.frame = CGRectMake(8, 0, _authorButton.bounds.size.width, _authorButton.bounds.size.height);
-    _authorButton.frame = CGRectMake(8, 10, 50, 20);
+    [_authorButton sizeToFit];
+    _authorButton.frame = CGRectMake(8, 0, _authorButton.bounds.size.width, _authorButton.bounds.size.height);
+//    _authorButton.frame = CGRectMake(8, 10, 80, 20);
 
-    NSLog(@"width is %f, height is %f", _authorButton.bounds.size.width, _authorButton.bounds.size.height);
+//    NSLog(@"width is %f, height is %f", _authorButton.bounds.size.width, _authorButton.bounds.size.height);
     [_floorAndTimeLabel sizeToFit];
     _floorAndTimeLabel.frame = CGRectMake(8, 26, _floorAndTimeLabel.bounds.size.width, _floorAndTimeLabel.bounds.size.height);
+    
     _replyButton.frame = CGRectMake((CGFloat)([UIScreen mainScreen].bounds.size.width - 94), 14, 40, 24);
     _moreButton.frame = CGRectMake((CGFloat)([UIScreen mainScreen].bounds.size.width - 44), 14, 36, 24);
     
@@ -165,6 +187,7 @@
        
     };
     _contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, self.contentView.bounds.size.height - 60 -imageLength);
+//    _contentLabel.frame = CGRectMake(8, 52, 300, 300);
     CGSize size = self.contentView.bounds.size;
     NSLog(@"layout finished");
     
