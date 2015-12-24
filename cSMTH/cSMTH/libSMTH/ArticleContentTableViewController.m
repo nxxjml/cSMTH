@@ -83,6 +83,11 @@
 //    NSInteger floor = [floorNum integerValue];
     NSInteger floor = indexPath.row;
     [cell setData:floor :smArticle :self];
+    
+//    CGRect cellFrame = cell.frame;
+    CGRect cellFrame = cell.contentLabel.frame;
+    NSLog(@"content label frame is %f,%f,%f,%f", cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, cellFrame.size.height);
+    
 //    NSLog(@"floor is %@",floorNum);÷
 //    NSLog(@"cell content is %@", smArticle);
 //    CGRect cellFrame = cell.frame;
@@ -198,7 +203,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 200;
+    ArticleContentTableViewCell *cell = (ArticleContentTableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+//    CGRect cellFrame = cell.frame;
+//    NSLog(@"cell frame is %f,%f,%f,%f", cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, cellFrame.size.height);
+    
+    CGFloat height = cell.cellHeight + 52;
+    NSLog(@"cell height is %f", height);
+    return height;
 }
 
 /*

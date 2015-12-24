@@ -26,6 +26,7 @@
 @property (nonatomic) int displayFloor;
 @property (nonatomic)  CGFloat blankWidth;
 @property (nonatomic) CGFloat picNumPerLine;
+@property (nonatomic) CGFloat cellHeight;
 
 
 - (void)setup;

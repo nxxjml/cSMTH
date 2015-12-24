@@ -24,11 +24,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self setup];
-//        [self layoutIfNeeded];
+        [self layoutIfNeeded];
     }
-    CGRect frame = self.frame;
-    frame.size.height =100;
-    self.frame = frame;
+//    CGRect frame = self.frame;
+//    frame.size.height =100;
+//    self.frame = frame;
     return self;
     }
 
@@ -39,25 +39,27 @@
     CGRect cellFrame = [self.contentView frame];
 //    NSLog(@"cell frame height is %f", cellFrame.size.height);
    
-    cellFrame.size.height = 44;
-    [self setFrame:cellFrame];
+//    cellFrame.size.height = 44;
+//    [self setFrame:cellFrame];
 //    self.contentView.bounds = cellFrame;
     
 //    NSLog(@"content view frame height is %f, bounds height is %f", self.contentView.frame.size.height, self.contentView.bounds.size.height);
     
     _authorButton = [[UIButton alloc] init];
     _authorButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    _authorButton.backgroundColor = [UIColor lightGrayColor];
+    [_authorButton setTitleColor:self.tintColor forState:UIControlStateNormal];
+//    _authorButton.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:_authorButton];
     
     _floorAndTimeLabel = [[UILabel alloc] init];
     _floorAndTimeLabel.font = [UIFont systemFontOfSize:15];
-    [_floorAndTimeLabel setBackgroundColor:[UIColor lightGrayColor]];
+//    [_floorAndTimeLabel setBackgroundColor:[UIColor lightGrayColor]];
     [self.contentView addSubview:_floorAndTimeLabel];
     
     _replyButton = [[UIButton alloc] init];
     [_replyButton setTitle:@"回复" forState:UIControlStateNormal];
     _replyButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [_replyButton setTitleColor:self.tintColor forState:UIControlStateNormal];
     _replyButton.layer.cornerRadius = 4;
     _replyButton.layer.borderWidth = 1;
     _replyButton.layer.borderColor = self.tintColor.CGColor;
@@ -67,6 +69,7 @@
     
     _moreButton = [[UIButton alloc] init];
     [_moreButton setTitle:@"..." forState:UIControlStateNormal];
+    [_moreButton setTitleColor:self.tintColor forState:UIControlStateNormal];
     _moreButton.titleLabel.font = [UIFont systemFontOfSize:15];
     _moreButton.layer.cornerRadius = 4;
     _moreButton.layer.borderWidth = 1;
@@ -114,7 +117,7 @@
     _displayFloor = floor;
     NSLog(@"floor is %ld", floor);
     _controller = controller;
-    [_authorButton setTitle:[smArticle objectForKey:@"boardID"] forState:UIControlStateNormal];
+    [_authorButton setTitle:[smArticle objectForKey:@"author_id"] forState:UIControlStateNormal];
     NSString *floorText;
     floorText = (_displayFloor == 0) ? @"楼主" : [NSString stringWithFormat:@"%ld楼", floor];
     NSNumber *time = [smArticle objectForKey:@"time"];
@@ -128,15 +131,23 @@
 //    NSLog(@"time after formate is %@", [formatter stringFromDate:timeAndDate]);
     
     [_floorAndTimeLabel setText:[NSString stringWithFormat:@"%@  %@", floorText, [formatter stringFromDate:timeAndDate]]];
+    NSString *contentString = [smArticle objectForKey:@"body"];
+    CGRect labelSize = [contentString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 16, 9000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.contentLabel.font} context:nil];
+    _cellHeight = ceil(labelSize.size.height);
+//    CGRect frame = _contentLabel.frame;
+//    NSLog(@"size is %f, %f", _contentLabel.frame.size.width, _contentLabel.frame.size.height);
+//    frame.size.height = size.height;
+//    [_contentLabel setFrame:frame];
+    [_contentLabel setBackgroundColor:[UIColor lightGrayColor]];
     [_contentLabel setText:[smArticle objectForKey:@"body"]];
+    NSLog(@"HEIGHT is %f", _cellHeight);
+    
     NSLog(@"setup data finished, body is %@", [smArticle objectForKey:@"body"]);
-    
-    
-    
-    
-    
+
     
 }
+
+
 
 - (void)layoutSubviews{
     [super layoutSubviews];
@@ -186,8 +197,11 @@
     } else {
        
     };
-    _contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, self.contentView.bounds.size.height - 60 -imageLength);
+    _contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, _cellHeight);//self.contentView.bounds.size.height - 60 -imageLength);
 //    _contentLabel.frame = CGRectMake(8, 52, 300, 300);
+//    _cellHeight = _contentLabel.frame.origin.y + _contentLabel.frame.size.height;
+//    NSLog(@"cell height is %f +%f = %f", _contentLabel.frame.origin.y, _contentLabel.frame.size.height, _cellHeight);
+    NSLog(@"content label width is %f, height is %f", _contentLabel.frame.size.width, _contentLabel.frame.size.height);
     CGSize size = self.contentView.bounds.size;
     NSLog(@"layout finished");
     

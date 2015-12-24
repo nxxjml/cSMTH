@@ -33,6 +33,7 @@
     _api = [[SMTHURLConnection alloc] init];
     [_api init_smth];
     _api.delegate = self;
+    self.navigationItem.title = @"热点话题";
     
     self.contentArray = [[NSMutableArray alloc] init];
     
@@ -231,6 +232,9 @@
     acvc.title = [thread objectForKey:@"subject"];
     acvc.fromTopTen = YES;
     acvc.hidesBottomBarWhenPushed  = YES;
+    UIBarButtonItem *tempButtonItem = [[UIBarButtonItem alloc] init];
+    tempButtonItem.title = @"返回";
+    self.navigationItem.backBarButtonItem = tempButtonItem;
     
     NSLog(@"articleID is %ld, boardID is %@", [aID integerValue], [thread objectForKey:@"board"]);
 }
