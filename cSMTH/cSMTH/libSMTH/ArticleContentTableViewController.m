@@ -10,6 +10,7 @@
 #import "ArticleContentTableViewCell.h"
 //#import "SMTHURLConnection.h"
 #import "MJRefresh.h"
+#import "ArticleListTableViewController.h"
 
 @interface ArticleContentTableViewController ()
 {
@@ -149,10 +150,12 @@
         if (_fromTopTen && _boardName == nil) {
             [api reset_status];
             NSArray *boards = [api net_QueryBoard:boardID];
+//            NSLog(@"boardName is %@", boards);
             if (boardID != nil) {
                 for (NSDictionary *board in boards){
                     if ([board objectForKey:@"boardID"] == boardID) {
-                        _boardName = [board objectForKey:@"name"];
+                        _boardName = [board objectForKey:@"id"];
+                        NSLog(@"boardName is%@", _boardName);
                         break;
                     }
                 }
@@ -256,4 +259,25 @@
 }
 */
 
+- (IBAction)enterBoard:(id)sender {
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    if (_fromTopTen) {
+        NSString *boardID = _boardID;
+        NSString *boardName = _boardID;
+        UIAlertAction *gotoBoardAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"进入%@版", boardID] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            ArticleListTableViewController *alvc = [self.storyboard instantiateViewControllerWithIdentifier:@"ArticleListTableViewController"];
+            alvc.boardID = boardID;
+            alvc.boardName = boardID;
+            alvc.hidesBottomBarWhenPushed = YES;
+            [self showViewController:alvc sender:self];
+        }];
+        [actionSheet addAction:gotoBoardAction];
+    }
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    actionSheet.popoverPresentationController.barButtonItem = sender;
+    [self presentViewController:actionSheet animated:YES completion:nil];
+    
+    
+    
+}
 @end

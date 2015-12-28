@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C30255541C2267E300E08A16 /* libSMTH_0.2.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C30255511C2267E300E08A16 /* libSMTH_0.2.3.a */; settings = {ASSET_TAGS = (); }; };
 		C30255571C2267FE00E08A16 /* client_signature.m in Sources */ = {isa = PBXBuildFile; fileRef = C30255561C2267FE00E08A16 /* client_signature.m */; settings = {ASSET_TAGS = (); }; };
+		C30624081C2D47E500A02FC9 /* ArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C30624071C2D47E500A02FC9 /* ArticleListTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		C306240B1C2D96AD00A02FC9 /* ArticleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C306240A1C2D96AD00A02FC9 /* ArticleListTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C31CD9461C23B0E500C7A946 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = C31CD91C1C23B0E500C7A946 /* MJRefreshAutoFooter.m */; settings = {ASSET_TAGS = (); }; };
 		C31CD9471C23B0E500C7A946 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = C31CD91E1C23B0E500C7A946 /* MJRefreshBackFooter.m */; settings = {ASSET_TAGS = (); }; };
 		C31CD9481C23B0E500C7A946 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = C31CD9201C23B0E500C7A946 /* MJRefreshComponent.m */; settings = {ASSET_TAGS = (); }; };
@@ -67,6 +69,10 @@
 		C30255531C2267E300E08A16 /* SMTHURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTHURLConnection.h; sourceTree = "<group>"; };
 		C30255551C2267FE00E08A16 /* client_signature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = client_signature.h; path = ../client_signature.h; sourceTree = "<group>"; };
 		C30255561C2267FE00E08A16 /* client_signature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = client_signature.m; path = ../client_signature.m; sourceTree = "<group>"; };
+		C30624061C2D47E500A02FC9 /* ArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListTableViewCell.h; sourceTree = "<group>"; };
+		C30624071C2D47E500A02FC9 /* ArticleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListTableViewCell.m; sourceTree = "<group>"; };
+		C30624091C2D96AD00A02FC9 /* ArticleListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListTableViewController.h; sourceTree = "<group>"; };
+		C306240A1C2D96AD00A02FC9 /* ArticleListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListTableViewController.m; sourceTree = "<group>"; };
 		C31CD91B1C23B0E500C7A946 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		C31CD91C1C23B0E500C7A946 /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		C31CD91D1C23B0E500C7A946 /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -293,6 +299,8 @@
 				C336C0281C22878200467C5F /* HotTableViewCell.m */,
 				C31CD9591C25B0B500C7A946 /* ArticleContentTableViewCell.h */,
 				C31CD95A1C25B0B500C7A946 /* ArticleContentTableViewCell.m */,
+				C30624061C2D47E500A02FC9 /* ArticleListTableViewCell.h */,
+				C30624071C2D47E500A02FC9 /* ArticleListTableViewCell.m */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -332,6 +340,8 @@
 				C336C0251C2286FB00467C5F /* HotTableViewController.m */,
 				C31CD9601C27EE1200C7A946 /* ArticleContentTableViewController.h */,
 				C31CD9611C27EE1200C7A946 /* ArticleContentTableViewController.m */,
+				C30624091C2D96AD00A02FC9 /* ArticleListTableViewController.h */,
+				C306240A1C2D96AD00A02FC9 /* ArticleListTableViewController.m */,
 				C336C02A1C22878900467C5F /* TableViewCell */,
 				C387A1621BEC90BC00AFC511 /* Main.storyboard */,
 				C387A1651BEC90BC00AFC511 /* Assets.xcassets */,
@@ -506,9 +516,11 @@
 				C31CD9491C23B0E500C7A946 /* MJRefreshFooter.m in Sources */,
 				C31CD94D1C23B0E500C7A946 /* MJRefreshAutoStateFooter.m in Sources */,
 				C387A1611BEC90BC00AFC511 /* ViewController.m in Sources */,
+				C30624081C2D47E500A02FC9 /* ArticleListTableViewCell.m in Sources */,
 				C31CD9481C23B0E500C7A946 /* MJRefreshComponent.m in Sources */,
 				C31CD94B1C23B0E500C7A946 /* MJRefreshAutoGifFooter.m in Sources */,
 				C31CD9521C23B0E500C7A946 /* MJRefreshNormalHeader.m in Sources */,
+				C306240B1C2D96AD00A02FC9 /* ArticleListTableViewController.m in Sources */,
 				C31CD9561C23B0E500C7A946 /* UIScrollView+MJExtension.m in Sources */,
 				C31CD95B1C25B0B500C7A946 /* ArticleContentTableViewCell.m in Sources */,
 				C31CD94F1C23B0E500C7A946 /* MJRefreshBackNormalFooter.m in Sources */,

@@ -29,6 +29,7 @@
 @property (nonatomic) CGFloat cellHeight;
 
 
+
 - (void)setup;
 - (void)setData:(NSInteger)floor :(NSDictionary *)smArticle :(UITableViewController *)controller;
 

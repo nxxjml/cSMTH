@@ -19,5 +19,7 @@
 @property (copy, nonatomic) NSString *boardName;
 @property (nonatomic) NSInteger articleID;
 @property (nonatomic) BOOL fromTopTen;
+- (IBAction)enterBoard:(id)sender;
+
 
 @end
