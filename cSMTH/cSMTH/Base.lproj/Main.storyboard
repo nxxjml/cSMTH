@@ -255,10 +255,10 @@
             </objects>
             <point key="canvasLocation" x="747" y="458"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Board List Table View Controller-->
         <scene sceneID="zRc-mM-VOL">
             <objects>
-                <tableViewController id="3gM-PB-FyB" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="BoardListTableViewController" id="3gM-PB-FyB" customClass="BoardListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aze-dk-SWZ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
