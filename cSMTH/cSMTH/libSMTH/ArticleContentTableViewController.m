@@ -87,7 +87,7 @@
     
 //    CGRect cellFrame = cell.frame;
     CGRect cellFrame = cell.contentLabel.frame;
-    NSLog(@"content label frame is %f,%f,%f,%f", cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, cellFrame.size.height);
+//    NSLog(@"content label frame is %f,%f,%f,%f", cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, cellFrame.size.height);
     
 //    NSLog(@"floor is %@",floorNum);÷
 //    NSLog(@"cell content is %@", smArticle);
@@ -170,7 +170,7 @@
                 [_smArticles addObjectsFromArray:smArticles];
                 _totalArticleNumber = totalArticleNumber;
                 [self.tableView reloadData];
-                NSLog(@"article content is %@", _smArticles[0]);
+                NSLog(@"article content is %@", _smArticles);
             } else {
                 [self.tableView.mj_header endRefreshing];
                 self.tableView.mj_footer.hidden = NO;

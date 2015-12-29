@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MJRefresh.h"
 #import "SMTHURLConnection.h"
+#import "ArticleListTableViewController.h"
 
 @interface BoardListTableViewController : UITableViewController<UISearchControllerDelegate, UISearchBarDelegate>
 @property (retain, nonatomic) UISearchController *searchController;

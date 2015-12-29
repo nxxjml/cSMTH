@@ -165,9 +165,11 @@
         NSMutableArray *content = [[NSMutableArray alloc] initWithCapacity:10];
         for (NSDictionary *section in _sectionsArray) {
             [self.api reset_status];
-            NSArray *rawThreads = [_api net_LoadSectionHot:(long)[section objectForKey:@"bdId"]];
+            NSInteger sectionID = [(NSNumber*)[section objectForKey:@"bdId"] integerValue];
+            NSArray *rawThreads = [_api net_LoadSectionHot:sectionID];
             [content addObject:rawThreads];
             NSInteger errorCode = (NSInteger)_api->net_error;
+//            NSLog(@"section is %ld" section)
 //            NSLog(@"%@, errorCode is %ld", rawThreads, (long)errorCode);
         }
         dispatch_async(dispatch_get_main_queue(), ^(){

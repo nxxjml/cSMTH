@@ -22,9 +22,9 @@
     api = [[SMTHURLConnection alloc] init];
     [api init_smth];
 //    api.delegate = self;
-    _boardID = 0;
-    _sectionID = 0;
-    _flag = 0;
+//    _boardID = 0;
+//    _sectionID = 0;
+//    _flag = 0;
     _boardArray = [[NSMutableArray alloc] init];
 
     _searchController = [[UISearchController alloc] initWithSearchResultsController:nil]; //注意使用init和initWithSearchResultsController的区别
@@ -44,7 +44,11 @@
     self.tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(fetchDataDirectly)];
     //    self.tableView.mj_header
     self.tableView.mj_footer = [MJRefreshFooter footerWithRefreshingTarget:self refreshingAction:@selector(fetchMoreData)];
-    [self fetchData];    // Uncomment the following line to preserve selection between presentations.
+    [self fetchData];
+    UIBarButtonItem *backBar = [[UIBarButtonItem alloc] init];
+    [backBar setTitle:@"返回"];
+    self.navigationItem.backBarButtonItem = backBar;
+    // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
@@ -60,10 +64,10 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 1;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//#warning Incomplete implementation, return the number of sections
+//    return 1;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
@@ -81,7 +85,7 @@
     if ((bdFlag != -1) && ((bdFlag & 0x400) == 0)) {//版面
         cell = [tableView dequeueReusableCellWithIdentifier:@"board" forIndexPath:indexPath];
         cell.textLabel.text = [board objectForKey:@"name"];
-        cell.detailTextLabel.text = [board objectForKey:@"board_id"];
+        cell.detailTextLabel.text = [board objectForKey:@"id"];
         NSLog(@"现在显示的是版面%@", [board objectForKey:@"name"]);
     } else {//文件夹
          cell = [tableView dequeueReusableCellWithIdentifier:@"directory" forIndexPath:indexPath];
@@ -125,8 +129,9 @@
         blvc.flag = flag;
         NSLog(@"boardid is %ld, sectionID is %ld, flag is %ld", boardID, sectionID, flag);
         [self showViewController:blvc sender:self];
-        
+        NSLog(@"row %ld selected", indexPath.row);
     }
+     NSLog(@"row %ld selected", indexPath.row);
 
     
     
@@ -167,6 +172,18 @@
 
 }
 
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    ArticleListTableViewController *dvc = (ArticleListTableViewController*)segue.destinationViewController;
+    UITableViewCell *cell = (UITableViewCell*)sender;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    NSDictionary *board = _boardArray[indexPath.row];
+    dvc.boardID = [board objectForKey:@"id"];
+    dvc.boardName = [board objectForKey:@"name"];
+    dvc.title = [board objectForKey:@"name"];
+    dvc.hidesBottomBarWhenPushed = YES;
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

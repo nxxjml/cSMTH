@@ -65,10 +65,10 @@
     _replyLabel.text = [NSString stringWithFormat:@"%@💬", [thread objectForKey:@"count"]];
     
     if ([flags hasPrefix:@"*"]) {
-        _unreadLabel.hidden = YES;
+        _unreadLabel.hidden = NO;
         
     } else {
-        _unreadLabel.hidden = NO;
+        _unreadLabel.hidden = YES;
     }
     
     //[_authorLabel setTextColor:[[UIApplication sharedApplication] keyWindow].tintColor];

@@ -41,7 +41,6 @@
     
 
     
-    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -68,7 +67,7 @@
     if (self.tableView.tableHeaderView == nil)  {
         CGRect frame = _searchController.searchBar.frame;
         NSLog(@"start search2");
-        NSLog(@"searchbar frame is %f,%f,%f,%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+//        NSLog(@"searchbar frame is %f,%f,%f,%f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
         [self.tableView setTableHeaderView:_searchController.searchBar];
         [self.tableView scrollRectToVisible:_searchController.searchBar.frame animated:NO];
         _searchController.active  = YES;
@@ -109,12 +108,12 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier  isEqual: @"ArticleContent"]) {
+    if ([segue.identifier isEqual: @"ArticleContent"]) {
         ArticleContentTableViewController *acvc = segue.destinationViewController;
         UITableViewCell *cell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         
-        NSDictionary *thread = _threads[indexPath.section][indexPath.row];
+        NSDictionary *thread = _threads[indexPath.row];
         NSNumber *aID = [thread objectForKey:@"id"];
         acvc.articleID = [aID integerValue];
         acvc.boardID = [thread objectForKey:@"board_id"];
@@ -122,7 +121,12 @@
         acvc.title = [thread objectForKey:@"subject"];
         acvc.hidesBottomBarWhenPushed = YES;
         if ([[thread objectForKey:@"flags"] hasPrefix:@"*"]) {
-            NSDictionary *readThread= thread;
+            NSMutableDictionary *readThread= [[NSMutableDictionary alloc] initWithDictionary:thread];
+            NSString *flags = [thread objectForKey:@"flags"];
+            NSRange r = [flags rangeOfString:@"*"];
+            flags = [NSString stringWithFormat:@" %@", [flags substringFromIndex:(r.location + r.length)]];
+            [readThread setValue:flags forKey:@"flags"];
+            _threads[indexPath.row] = readThread;
             
         
         }
@@ -189,7 +193,7 @@
                 [_threads removeAllObjects];
                 threadLoaded += [threadSection count];
                 [_threads addObjectsFromArray:threadSection];
-                NSLog(@"length of threads is %lu, threads is %@", (unsigned long)[_threads count], _threads[0]);
+                NSLog(@"length of threads is %lu, threads is %@", (unsigned long)[_threads count], _threads);
                 [self.tableView reloadData];
             } else {
                 [self.tableView.mj_header endRefreshing];

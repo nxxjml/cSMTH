@@ -138,7 +138,7 @@
 //    NSLog(@"size is %f, %f", _contentLabel.frame.size.width, _contentLabel.frame.size.height);
 //    frame.size.height = size.height;
 //    [_contentLabel setFrame:frame];
-    [_contentLabel setBackgroundColor:[UIColor lightGrayColor]];
+//    [_contentLabel setBackgroundColor:[UIColor lightGrayColor]];
     [_contentLabel setText:[smArticle objectForKey:@"body"]];
     NSLog(@"HEIGHT is %f", _cellHeight);
     
