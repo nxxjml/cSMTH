@@ -44,6 +44,7 @@
 		C387A1691BEC90BC00AFC511 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C387A1671BEC90BC00AFC511 /* LaunchScreen.storyboard */; };
 		C387A1741BEC90BC00AFC511 /* cSMTHTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C387A1731BEC90BC00AFC511 /* cSMTHTests.m */; };
 		C387A17F1BEC90BC00AFC511 /* cSMTHUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C387A17E1BEC90BC00AFC511 /* cSMTHUITests.m */; };
+		C3D01DCA1C36755200C31E48 /* FavBoardListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D01DC91C36755200C31E48 /* FavBoardListTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C3F477311C20160F0072592C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F477301C20160F0072592C /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -140,6 +141,8 @@
 		C387A17A1BEC90BC00AFC511 /* cSMTHUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cSMTHUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C387A17E1BEC90BC00AFC511 /* cSMTHUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cSMTHUITests.m; sourceTree = "<group>"; };
 		C387A1801BEC90BC00AFC511 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3D01DC81C36755200C31E48 /* FavBoardListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavBoardListTableViewController.h; sourceTree = "<group>"; };
+		C3D01DC91C36755200C31E48 /* FavBoardListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavBoardListTableViewController.m; sourceTree = "<group>"; };
 		C3F4772F1C20160F0072592C /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C3F477301C20160F0072592C /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -347,6 +350,8 @@
 				C306240A1C2D96AD00A02FC9 /* ArticleListTableViewController.m */,
 				C31C95511C32226200140F5D /* BoardListTableViewController.h */,
 				C31C95521C32226200140F5D /* BoardListTableViewController.m */,
+				C3D01DC81C36755200C31E48 /* FavBoardListTableViewController.h */,
+				C3D01DC91C36755200C31E48 /* FavBoardListTableViewController.m */,
 				C336C02A1C22878900467C5F /* TableViewCell */,
 				C387A1621BEC90BC00AFC511 /* Main.storyboard */,
 				C387A1651BEC90BC00AFC511 /* Assets.xcassets */,
@@ -529,6 +534,7 @@
 				C306240B1C2D96AD00A02FC9 /* ArticleListTableViewController.m in Sources */,
 				C31CD9561C23B0E500C7A946 /* UIScrollView+MJExtension.m in Sources */,
 				C31CD95B1C25B0B500C7A946 /* ArticleContentTableViewCell.m in Sources */,
+				C3D01DCA1C36755200C31E48 /* FavBoardListTableViewController.m in Sources */,
 				C31CD94F1C23B0E500C7A946 /* MJRefreshBackNormalFooter.m in Sources */,
 				C31CD9551C23B0E500C7A946 /* MJRefreshConst.m in Sources */,
 				C31CD94C1C23B0E500C7A946 /* MJRefreshAutoNormalFooter.m in Sources */,

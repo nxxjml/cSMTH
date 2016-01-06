@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KFv-ML-iHd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KFv-ML-iHd">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="N9N-2j-sIr">
-            <objects>
-                <viewController id="JNa-Y9-Ody" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ao5-pM-1MN"/>
-                        <viewControllerLayoutGuide type="bottom" id="8sk-S7-qy8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ztg-Bv-xGJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Mcn-mH-kia"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kFp-xm-mtK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1567" y="1125"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="nRY-d3-hbW">
             <objects>
@@ -340,7 +321,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="JNa-Y9-Ody" kind="relationship" relationship="rootViewController" id="MGZ-fP-ZLz"/>
+                        <segue destination="8QD-nH-rsW" kind="relationship" relationship="rootViewController" id="xKD-aI-FFm"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxa-bH-YOW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -385,22 +366,41 @@
             </objects>
             <point key="canvasLocation" x="747" y="-215"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Fav Board List Table View Controller-->
         <scene sceneID="4pV-Nt-aBG">
             <objects>
-                <tableViewController id="8QD-nH-rsW" sceneMemberID="viewController">
+                <tableViewController id="8QD-nH-rsW" customClass="FavBoardListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="29e-MX-3Qm">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="QJ9-a6-M82">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="favBoard" textLabel="F0I-Me-ics" detailTextLabel="MGM-Qh-B6W" style="IBUITableViewCellStyleValue1" id="QJ9-a6-M82">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QJ9-a6-M82" id="MIv-z1-a52">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F0I-Me-ics">
+                                            <rect key="frame" x="15" y="12" width="32" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MGM-Qh-B6W">
+                                            <rect key="frame" x="543" y="12" width="42" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="H5b-Mt-hmr" kind="show" id="oGH-x0-ZVg"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -408,10 +408,17 @@
                             <outlet property="delegate" destination="8QD-nH-rsW" id="w0g-6I-CbP"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="P6m-dq-ugO">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nW9-d2-MEW">
+                            <connections>
+                                <action selector="addBoard:" destination="8QD-nH-rsW" id="a9s-bJ-Dcz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vfS-ws-vrf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2273" y="1125"/>
+            <point key="canvasLocation" x="1567" y="1125"/>
         </scene>
     </scenes>
     <resources>
@@ -422,5 +429,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fsx-db-naG"/>
+        <segue reference="oGH-x0-ZVg"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -26,6 +26,7 @@
     threadLoaded = 0;
 //    api.delegate = self;
     _threads = [[NSMutableArray alloc] init];
+    self.definesPresentationContext = YES;
     _threadRange = NSMakeRange(threadLoaded, 20);
     _searchController = [[UISearchController alloc] initWithSearchResultsController:nil]; //注意使用init和initWithSearchResultsController的区别
     _searchController.searchBar.scopeButtonTitles = @[@"标题", @"用户"];
@@ -217,6 +218,7 @@
     _threads = _orginalThread;
     threadLoaded = _originalThreadLoaded;
     _orginalThread = nil;
+    [self.tableView reloadData];
 }
 
 - (void)didPresentSearchController:(UISearchController *)searchController {
@@ -225,16 +227,22 @@
     self.tableView.mj_header.hidden = YES;
     _orginalThread = _threads;
     _originalThreadLoaded = threadLoaded;
+    _threads = [[NSMutableArray alloc] init];
     threadLoaded = 0;
     [self.searchController.searchBar becomeFirstResponder];
+    [self.tableView reloadData];
 }
 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    _searchString = _searchController.searchBar.text;
+    _selectedIndex = _searchController.searchBar.selectedScopeButtonIndex;
+    [self searchForText:_searchString :_selectedIndex];
+    [self.tableView reloadData];
     
 }
 
-- (void) searchForText:(NSString*)searchString :(int)scope {
+- (void) searchForText:(NSString*)searchString :(NSInteger)scope {
     if (searchString == nil) {
         return;
     }
@@ -258,7 +266,7 @@
                     return;
                 }
                 [_threads removeAllObjects];
-                [_threads addObject:results];
+                [_threads addObjectsFromArray:results];
                 threadLoaded += [results count];
             });
         });
