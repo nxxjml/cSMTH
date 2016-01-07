@@ -194,15 +194,21 @@
     CGFloat imageLength = 0;
     if ([_imageViews count] == 1) {
         imageLength = self.contentView.bounds.size.width;
-    } else {
-       
+    } else if ([_imageViews count] > 1) {
+        CGFloat oneImageLength = (self.contentView.bounds.size.width - (_picNumPerLine - 1) * _blankWidth) / _picNumPerLine;
+        imageLength = (oneImageLength + _blankWidth) * ceil((CGFloat)[_imageViews count] / _picNumPerLine ) - _blankWidth;
     };
+    CGSize size = self.contentView.bounds.size;
+    if ([_imageViews count] == 1) {
+        _imageViews.firstObject setFrame:CGRectMake(0, size.height - size.width, <#CGFloat height#>)
+    }
+    
     _contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, _cellHeight);//self.contentView.bounds.size.height - 60 -imageLength);
 //    _contentLabel.frame = CGRectMake(8, 52, 300, 300);
 //    _cellHeight = _contentLabel.frame.origin.y + _contentLabel.frame.size.height;
 //    NSLog(@"cell height is %f +%f = %f", _contentLabel.frame.origin.y, _contentLabel.frame.size.height, _cellHeight);
     NSLog(@"content label width is %f, height is %f", _contentLabel.frame.size.width, _contentLabel.frame.size.height);
-    CGSize size = self.contentView.bounds.size;
+//    CGSize size = self.contentView.bounds.size;
     NSLog(@"layout finished");
     
     
