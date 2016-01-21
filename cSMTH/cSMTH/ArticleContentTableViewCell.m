@@ -200,7 +200,16 @@
     };
     CGSize size = self.contentView.bounds.size;
     if ([_imageViews count] == 1) {
-        _imageViews.firstObject setFrame:CGRectMake(0, size.height - size.width, <#CGFloat height#>)
+        [_imageViews.firstObject setFrame:CGRectMake(0, size.height - size.width, size.width, size.height)];
+    } else {
+        for (UIImageView* imageView in _imageViews) {
+            CGFloat length = (size.width - (_picNumPerLine -1) * _blankWidth) / _picNumPerLine;
+            CGFloat startY = size.height - ((length + _blankWidth) * ceil(((CGFloat) [_imageViews count]) / _picNumPerLine) - _blankWidth);
+            CGFloat offsetY = (length + _blankWidth) * (CGFloat)([_imageViews indexOfObject:imageView] / (int)_picNumPerLine);
+            CGFloat X = 0 + (CGFloat)([_imageViews indexOfObject:imageView] % (int)_picNumPerLine) * (length + _blankWidth);
+            imageView.frame = CGRectMake(X, startY + offsetY, length, length);
+            
+        }
     }
     
     _contentLabel.frame = CGRectMake(8, 52, [UIScreen mainScreen].bounds.size.width -16, _cellHeight);//self.contentView.bounds.size.height - 60 -imageLength);
